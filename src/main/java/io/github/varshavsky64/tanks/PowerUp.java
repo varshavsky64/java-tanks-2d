@@ -25,7 +25,7 @@ public final class PowerUp extends Entity {
     }
 
     public static final int SIZE = 28;
-    private static final int LIFETIME = 60 * 20;
+    private static final int LIFETIME = 60 * 30;
 
     private final Type type;
     private int life = LIFETIME;

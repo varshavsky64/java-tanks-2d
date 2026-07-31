@@ -19,6 +19,10 @@ public final class World {
     private static final int SHOVEL_FRAMES = 60 * 15;
     private static final int POWERUP_SCORE = 500;
     private static final int START_LIVES = 3;
+    /** Каждый n-й враг в волне — «бонусный»: при уничтожении оставляет бонус. */
+    private static final int BONUS_ENEMY_EVERY = 3;
+    /** Сколько бонусов может лежать на поле одновременно. */
+    private static final int MAX_POWERUPS_ON_FIELD = 2;
 
     private final Random random = new Random();
     private final Input input = new Input();
@@ -97,7 +101,7 @@ public final class World {
             } else {
                 type = EnemyTank.Type.ARMOR;
             }
-            boolean bonus = i == 3 || i == 10 || i == 17;
+            boolean bonus = i % BONUS_ENEMY_EVERY == BONUS_ENEMY_EVERY - 1;
             spawnQueue.add(new EnemyTank(0, 0, type, bonus, random));
         }
     }
@@ -292,7 +296,11 @@ public final class World {
         play(Sound.EXPLOSION);
         addScore(enemy.getType().getScore(), c.x, c.y);
         if (enemy.isBonus()) {
-            powerUps.clear();
+            // Раньше новый бонус стирал предыдущий; теперь на поле их может лежать два,
+            // иначе при частых выпадениях игрок не успевал подобрать первый.
+            while (powerUps.size() >= MAX_POWERUPS_ON_FIELD) {
+                powerUps.remove(0);
+            }
             powerUps.add(PowerUp.randomAt(random));
             play(Sound.POWERUP_APPEAR);
         }
