@@ -1,0 +1,7 @@
+target/
+*.class
+
+# Локальные файлы IDEA (workspace.xml и shelf исключены в .idea/.gitignore)
+.idea/data_source_mapping.xml
+.idea/jarRepositories.xml
+.idea/swift-toolchain.xml
