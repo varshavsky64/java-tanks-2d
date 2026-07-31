@@ -1,7 +1,5 @@
 package io.github.varshavsky64.tanks;
 
-import java.util.Random;
-
 /** Четыре направления движения. Угол используется при отрисовке спрайтов. */
 public enum Direction {
     UP(0, -1, 0.0),
@@ -30,9 +28,5 @@ public enum Direction {
 
     public boolean isHorizontal() {
         return dx != 0;
-    }
-
-    public static Direction random(Random random) {
-        return values()[random.nextInt(values().length)];
     }
 }

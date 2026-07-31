@@ -74,14 +74,6 @@ public final class SoundEngine implements Audio, AutoCloseable {
         }
     }
 
-    public boolean isMuted() {
-        return muted;
-    }
-
-    public boolean isAvailable() {
-        return line != null;
-    }
-
     @Override
     public void close() {
         running = false;

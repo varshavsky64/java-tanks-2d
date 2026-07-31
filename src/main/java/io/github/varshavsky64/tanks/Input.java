@@ -7,8 +7,4 @@ public final class Input {
     public boolean left;
     public boolean right;
     public boolean fire;
-
-    public void clear() {
-        up = down = left = right = fire = false;
-    }
 }

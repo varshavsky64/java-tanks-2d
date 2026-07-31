@@ -105,10 +105,6 @@ public final class Level {
     private Level() {
     }
 
-    public static int count() {
-        return MAPS.length;
-    }
-
     public static Level load(int index) {
         Level level = new Level();
         String[] macro = MAPS[Math.floorMod(index, MAPS.length)];
