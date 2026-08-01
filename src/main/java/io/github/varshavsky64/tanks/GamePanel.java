@@ -48,6 +48,7 @@ public final class GamePanel extends JPanel {
         switch (keyCode) {
             case KeyEvent.VK_P -> world.togglePause();
             case KeyEvent.VK_M -> sound.toggleMute();
+            case KeyEvent.VK_N -> sound.toggleMusic();
             case KeyEvent.VK_ENTER -> {
                 if (world.getState() == GameState.GAME_OVER) {
                     world.restart();

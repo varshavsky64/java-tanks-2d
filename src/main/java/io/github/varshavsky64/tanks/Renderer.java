@@ -431,8 +431,9 @@ public final class Renderer {
 
         g.setFont(FONT_LABEL);
         g.setColor(new Color(84, 90, 104));
-        g.drawString("P — пауза", left, SCREEN_HEIGHT - 34);
-        g.drawString("M — звук", left, SCREEN_HEIGHT - 20);
+        g.drawString("P — пауза", left, SCREEN_HEIGHT - 48);
+        g.drawString("M — звук", left, SCREEN_HEIGHT - 34);
+        g.drawString("N — музыка", left, SCREEN_HEIGHT - 20);
     }
 
     /** Карточка очков: крупное золотое число и рекорд под разделителем. */
