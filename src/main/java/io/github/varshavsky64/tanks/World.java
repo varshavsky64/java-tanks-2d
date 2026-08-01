@@ -17,6 +17,8 @@ public final class World {
     private static final int RESPAWN_DELAY = 90;
     private static final int FREEZE_FRAMES = 60 * 8;
     private static final int SHOVEL_FRAMES = 60 * 15;
+    private static final int TRIPLE_FRAMES = 60 * 15;
+    private static final int BOOST_FRAMES = 60 * 15;
     private static final int POWERUP_SCORE = 500;
     private static final int START_LIVES = 3;
     /** Каждый n-й враг в волне — «бонусный»: при уничтожении оставляет бонус. */
@@ -346,6 +348,8 @@ public final class World {
             case HELMET -> player.giveShield(60 * 10);
             case LIFE -> lives++;
             case CLOCK -> freezeTimer = FREEZE_FRAMES;
+            case TRIPLE -> player.giveTripleShot(TRIPLE_FRAMES);
+            case BOOST -> player.giveSpeedBoost(BOOST_FRAMES);
             case SHOVEL -> {
                 level.fortifyBase();
                 shovelTimer = SHOVEL_FRAMES;

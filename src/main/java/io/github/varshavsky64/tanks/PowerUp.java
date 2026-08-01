@@ -17,7 +17,11 @@ public final class PowerUp extends Entity {
         /** Лопата — база обрастает бронёй. */
         SHOVEL,
         /** Часы — враги замирают. */
-        CLOCK;
+        CLOCK,
+        /** Три снаряда — на время танк стреляет залпом из трёх стволов. */
+        TRIPLE,
+        /** Молния — на время танк едет быстрее. */
+        BOOST;
 
         static Type random(Random random) {
             return values()[random.nextInt(values().length)];

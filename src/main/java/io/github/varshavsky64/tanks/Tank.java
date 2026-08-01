@@ -7,6 +7,8 @@ public abstract class Tank extends Entity {
 
     public static final int SIZE = Level.CELL * 2;
     private static final int SLIDE_FRAMES = 16;
+    /** Расстояние между стволами залпа. */
+    private static final double BARREL_SPACING = 10;
 
     protected Direction direction = Direction.UP;
     protected double speed = 1.4;
@@ -15,6 +17,8 @@ public abstract class Tank extends Entity {
     protected int maxBullets = 1;
     protected double bulletSpeed = 5.0;
     protected int bulletPower = 1;
+    /** Сколько снарядов уходит за один выстрел. */
+    protected int shots = 1;
 
     protected int cooldown;
     protected int activeBullets;
@@ -76,8 +80,12 @@ public abstract class Tank extends Entity {
             return false;
         }
         cooldown = reload;
-        activeBullets++;
-        world.addBullet(Bullet.spawn(this, direction, bulletSpeed, bulletPower));
+        for (int i = 0; i < shots; i++) {
+            // Стволы разносятся поперёк полёта симметрично центру и укладываются в ширину танка.
+            double offset = (i - (shots - 1) / 2.0) * BARREL_SPACING;
+            activeBullets++;
+            world.addBullet(Bullet.spawn(this, direction, bulletSpeed, bulletPower, offset));
+        }
         world.play(this instanceof PlayerTank ? Sound.PLAYER_SHOT : Sound.ENEMY_SHOT);
         return true;
     }

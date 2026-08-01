@@ -372,6 +372,19 @@ public final class Renderer {
                 g.drawLine(cx, cy, cx, cy - 5);
                 g.drawLine(cx, cy, cx + 4, cy + 1);
             }
+            case TRIPLE -> {
+                // Три снаряда рядом — ровно то, что уходит из стволов за выстрел.
+                g.setColor(new Color(214, 68, 52));
+                for (int i = -1; i <= 1; i++) {
+                    g.fillRoundRect(cx + i * 7 - 2, cy - 8, 5, 15, 5, 5);
+                }
+            }
+            case BOOST -> {
+                g.setColor(new Color(240, 196, 32));
+                g.fillPolygon(
+                        new int[]{cx + 4, cx - 8, cx - 1, cx - 5, cx + 8, cx + 1},
+                        new int[]{cy - 10, cy + 2, cy + 2, cy + 10, cy - 2, cy - 2}, 6);
+            }
         }
     }
 
@@ -424,9 +437,13 @@ public final class Renderer {
             y += 42;
         }
         if (world.isFreezeActive()) {
-            g.setFont(FONT_SMALL);
-            g.setColor(new Color(120, 200, 255));
-            g.drawString("ВРАГИ ЗАМЕРЛИ", left, y + 12);
+            y = status(g, "ВРАГИ ЗАМЕРЛИ", new Color(120, 200, 255), left, y);
+        }
+        if (player != null && player.hasTripleShot()) {
+            y = status(g, "ТРОЙНОЙ ЗАЛП", new Color(240, 120, 96), left, y);
+        }
+        if (player != null && player.hasSpeedBoost()) {
+            status(g, "УСКОРЕНИЕ", new Color(240, 196, 32), left, y);
         }
 
         g.setFont(FONT_LABEL);
@@ -434,6 +451,14 @@ public final class Renderer {
         g.drawString("P — пауза", left, SCREEN_HEIGHT - 48);
         g.drawString("M — звук", left, SCREEN_HEIGHT - 34);
         g.drawString("N — музыка", left, SCREEN_HEIGHT - 20);
+    }
+
+    /** Строка активного бонуса в панели; возвращает координату для следующей такой строки. */
+    private int status(Graphics2D g, String text, Color color, int left, int y) {
+        g.setFont(FONT_SMALL);
+        g.setColor(color);
+        g.drawString(text, left, y + 12);
+        return y + 18;
     }
 
     /** Карточка очков: крупное золотое число и рекорд под разделителем. */

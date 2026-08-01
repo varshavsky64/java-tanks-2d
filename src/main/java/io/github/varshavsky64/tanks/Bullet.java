@@ -24,13 +24,17 @@ public final class Bullet extends Entity {
         this.owner = owner;
     }
 
-    /** Создаёт снаряд у дульного среза танка. */
-    public static Bullet spawn(Tank owner, Direction direction, double speed, int power) {
+    /**
+     * Создаёт снаряд у дульного среза танка.
+     *
+     * @param offset сдвиг поперёк полёта — им разносятся стволы тройного залпа
+     */
+    public static Bullet spawn(Tank owner, Direction direction, double speed, int power, double offset) {
         int w = direction.isHorizontal() ? LENGTH : GIRTH;
         int h = direction.isHorizontal() ? GIRTH : LENGTH;
         Point c = owner.center();
-        double x = c.x + direction.dx * (owner.getWidth() / 2.0) - w / 2.0;
-        double y = c.y + direction.dy * (owner.getHeight() / 2.0) - h / 2.0;
+        double x = c.x + direction.dx * (owner.getWidth() / 2.0) - w / 2.0 - direction.dy * offset;
+        double y = c.y + direction.dy * (owner.getHeight() / 2.0) - h / 2.0 + direction.dx * offset;
         return new Bullet(x, y, w, h, direction, speed, power, owner);
     }
 
