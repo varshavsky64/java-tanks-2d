@@ -15,6 +15,14 @@ public final class GamePanel extends JPanel {
 
     private static final int FRAME_MS = 16;
 
+    /**
+     * Раскладка ЙЦУКЕН: символы кириллицы и латинские буквы на тех же физических клавишах.
+     * При русской раскладке система отдаёт код кириллической буквы (или вовсе ничего),
+     * поэтому клавиша ищется по напечатанному символу и переводится в латинский аналог.
+     */
+    private static final String CYRILLIC = "йцукенгшщзхъфывапролджэячсмитьбюё";
+    private static final String LATIN = "qwertyuiop[]asdfghjkl;'zxcvbnm,.`";
+
     private final SoundEngine sound = new SoundEngine();
     private final World world = new World(sound);
     private final Renderer renderer = new Renderer();
@@ -28,13 +36,14 @@ public final class GamePanel extends JPanel {
         addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                pressed.add(e.getKeyCode());
-                handleCommand(e.getKeyCode());
+                int code = keyCode(e);
+                pressed.add(code);
+                handleCommand(code);
             }
 
             @Override
             public void keyReleased(KeyEvent e) {
-                pressed.remove(e.getKeyCode());
+                pressed.remove(keyCode(e));
             }
         });
     }
@@ -42,6 +51,12 @@ public final class GamePanel extends JPanel {
     public void start() {
         requestFocusInWindow();
         timer.start();
+    }
+
+    /** Код клавиши, не зависящий от раскладки: кириллица приводится к латинице по позиции. */
+    private static int keyCode(KeyEvent e) {
+        int index = CYRILLIC.indexOf(Character.toLowerCase(e.getKeyChar()));
+        return index < 0 ? e.getKeyCode() : KeyEvent.getExtendedKeyCodeForChar(LATIN.charAt(index));
     }
 
     private void handleCommand(int keyCode) {
