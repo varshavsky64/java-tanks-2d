@@ -75,9 +75,10 @@ public abstract class Tank extends Entity {
         }
     }
 
-    public boolean tryShoot(World world) {
+    /** Стреляет, если перезарядка прошла и есть свободный слот снаряда. */
+    public void tryShoot(World world) {
         if (cooldown > 0 || activeBullets >= maxBullets) {
-            return false;
+            return;
         }
         cooldown = reload;
         for (int i = 0; i < shots; i++) {
@@ -87,7 +88,6 @@ public abstract class Tank extends Entity {
             world.addBullet(Bullet.spawn(this, direction, bulletSpeed, bulletPower, offset));
         }
         world.play(this instanceof PlayerTank ? Sound.PLAYER_SHOT : Sound.ENEMY_SHOT);
-        return true;
     }
 
     void bulletDestroyed() {

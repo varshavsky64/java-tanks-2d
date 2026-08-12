@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 /**
  * Карта уровня. Карты пишутся в «крупной» сетке 22x16, где один символ — блок 2x2 клетки
@@ -197,7 +198,7 @@ public final class Level {
         return anyCell(r, t -> t == TileType.STEEL);
     }
 
-    private boolean anyCell(Rectangle r, java.util.function.Predicate<TileType> test) {
+    private boolean anyCell(Rectangle r, Predicate<TileType> test) {
         int c0 = Math.max(0, r.x / CELL);
         int c1 = Math.min(COLS - 1, (r.x + r.width - 1) / CELL);
         int r0 = Math.max(0, r.y / CELL);

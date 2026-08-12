@@ -64,7 +64,6 @@ public final class World {
     public void restart() {
         score = 0;
         lives = START_LIVES;
-        levelIndex = 0;
         startLevel(0);
     }
 

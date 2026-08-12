@@ -8,6 +8,7 @@ public final class PlayerTank extends Tank {
 
     public static final int SPAWN_SHIELD_FRAMES = 180;
 
+    private static final int MAX_UPGRADE = 3;
     private static final int TRIPLE_SHOTS = 3;
     private static final double BASE_SPEED = 2.0;
     /** 3.2 — это 16/5: как и базовая скорость, делит клетку нацело и не рассинхронит сетку. */
@@ -56,7 +57,7 @@ public final class PlayerTank extends Tank {
     }
 
     public void upgrade() {
-        if (upgrade < 3) {
+        if (upgrade < MAX_UPGRADE) {
             upgrade++;
             applyUpgrade();
         }
@@ -92,7 +93,7 @@ public final class PlayerTank extends Tank {
         // первого же выстрела пришлось бы ждать, пока догорят все три.
         maxBullets = (upgrade >= 2 ? 2 : 1) * shots;
         bulletSpeed = upgrade >= 1 ? 7.5 : 5.5;
-        bulletPower = upgrade >= 3 ? 2 : 1;
+        bulletPower = upgrade >= MAX_UPGRADE ? 2 : 1;
         health = 1;
     }
 }

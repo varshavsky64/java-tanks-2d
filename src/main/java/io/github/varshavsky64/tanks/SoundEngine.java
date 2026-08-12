@@ -1,6 +1,7 @@
 package io.github.varshavsky64.tanks;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +20,8 @@ public final class SoundEngine implements Audio, AutoCloseable {
 
     private static final float SAMPLE_RATE = 44100f;
     private static final int CHUNK_FRAMES = 512;
+    /** Потолок одновременно звучащих эффектов: сверх него самый старый голос выбрасывается. */
+    private static final int MAX_VOICES = 16;
     private static final AudioFormat FORMAT =
             new AudioFormat(SAMPLE_RATE, 16, 1, true, false);
 
@@ -62,7 +65,7 @@ public final class SoundEngine implements Audio, AutoCloseable {
         // Небольшая случайная расстройка громкости, чтобы повторы не звучали механически.
         float gain = 0.85f + random.nextFloat() * 0.3f;
         synchronized (voices) {
-            if (voices.size() >= 16) {
+            if (voices.size() >= MAX_VOICES) {
                 voices.remove(0);
             }
             voices.add(new Voice(data, gain));
@@ -99,7 +102,7 @@ public final class SoundEngine implements Audio, AutoCloseable {
         float[] mix = new float[CHUNK_FRAMES];
         byte[] out = new byte[CHUNK_FRAMES * 2];
         while (running) {
-            java.util.Arrays.fill(mix, 0f);
+            Arrays.fill(mix, 0f);
             synchronized (voices) {
                 voices.removeIf(voice -> voice.mixInto(mix));
             }
