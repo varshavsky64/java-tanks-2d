@@ -96,6 +96,12 @@ public final class GamePanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        renderer.render((Graphics2D) g.create(), world);
+        // Рисуем в копии контекста, чтобы настройки Renderer не текли наружу; копию надо освободить.
+        Graphics2D g2 = (Graphics2D) g.create();
+        try {
+            renderer.render(g2, world);
+        } finally {
+            g2.dispose();
+        }
     }
 }
